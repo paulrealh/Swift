@@ -1,0 +1,1 @@
+FROM node:18-alpine AS build\n\nWORKDIR /app\n\nCOPY package*.json ./\n\nRUN npm install\n\nCOPY . .\n\nRUN npm run build\n\nFROM node:18-alpine\n\nWORKDIR /app\n\nRUN npm install -g serve\n\nCOPY --from=build /app/build ./build\n\nEXPOSE 3000\n\nCMD [\"serve\", \"-s\", \"build\", \"-l\", \"3000\"]
